@@ -120,10 +120,22 @@ Caja NAP
 
 
 
-<label>Color Caja NAP</label>
+
+<div id="divColorNap" style="display:none">
+
+
+<label>
+Color Caja NAP
+</label>
 
 
 <select id="color">
+
+
+<option value="">
+Seleccione color
+</option>
+
 
 <option value="Blanco">
 Blanco
@@ -138,10 +150,17 @@ Negro
 </select>
 
 
+</div>
+
+
+
 
 <button onclick="capturarFoto()">
+
 📷 Tomar Foto
+
 </button>
+
 
 
 <input 
@@ -153,14 +172,21 @@ hidden>
 
 
 
+<p id="ubicacion">
+
+📍 GPS pendiente
+
+</p>
+
+
+
+
 <button onclick="obtenerGPS()">
-📍 Obtener GPS
+
+📍 Obtener GPS manual
+
 </button>
 
-
-<p id="ubicacion">
-GPS pendiente
-</p>
 
 
 
@@ -187,7 +213,9 @@ onclick="guardarPoste()">
 
 
 <p id="resumen">
+
 Total registros: 0
+
 </p>
 
 
@@ -204,13 +232,21 @@ Total registros: 0
 
 
 <input
+
 id="buscar"
+
 placeholder="Buscar poste, etapa o sector"
-onkeyup="mostrarRegistros()">
+
+onkeyup="mostrarRegistros()"
+
+
+
+>
 
 
 
 <h2>Registros</h2>
+
 
 
 <div class="tabla">
@@ -220,7 +256,6 @@ onkeyup="mostrarRegistros()">
 
 
 <thead>
-
 
 <tr>
 
@@ -238,6 +273,7 @@ onkeyup="mostrarRegistros()">
 
 <th>Acción</th>
 
+
 </tr>
 
 
@@ -253,7 +289,6 @@ onkeyup="mostrarRegistros()">
 
 
 </table>
-
 
 
 </div>
@@ -275,7 +310,6 @@ onkeyup="mostrarRegistros()">
 </button>
 
 
-
 <button onclick="exportarExcel()">
 
 📊 Exportar Excel
@@ -287,7 +321,9 @@ onkeyup="mostrarRegistros()">
 
 
 
+
 </div>
+
 
 
 
@@ -295,7 +331,9 @@ onkeyup="mostrarRegistros()">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
@@ -305,16 +343,19 @@ onkeyup="mostrarRegistros()">
 
 
 
-
 <script>
 
+
 if("serviceWorker" in navigator){
+
 
 navigator.serviceWorker.register(
 "service-worker.js"
 );
 
+
 }
+
 
 </script>
 
