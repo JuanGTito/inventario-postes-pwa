@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -14,56 +16,133 @@
 
 </head>
 
+
 <body>
 
+
 <div class="container">
+
 
 <h1>📍 Inventario de Postes</h1>
 
 
+
 <div class="card">
 
+
+<h2>Nuevo Registro</h2>
+
+
+<label>Proyecto</label>
+
+<input 
+id="proyecto"
+placeholder="Ejemplo: Línea eléctrica XYZ">
+
+
+
+<label>Etapa</label>
+
+<select id="etapa">
+
+<option value="Etapa 1">
+Etapa 1
+</option>
+
+<option value="Etapa 2">
+Etapa 2
+</option>
+
+<option value="Etapa 3">
+Etapa 3
+</option>
+
+</select>
+
+
+
+<label>Sector</label>
+
+<select id="sector">
+
+<option value="Sector A">
+Sector A
+</option>
+
+<option value="Sector B">
+Sector B
+</option>
+
+<option value="Sector C">
+Sector C
+</option>
+
+</select>
+
+
+
 <label>Número de poste</label>
-<input id="numeroPoste" type="text" placeholder="Ejemplo: 001">
+
+<input
+id="numeroPoste"
+placeholder="001">
+
 
 
 <div class="checks">
+
 
 <label>
 <input type="checkbox" id="brazo">
 Brazo
 </label>
 
+
 <label>
 <input type="checkbox" id="clevis">
 Clevis
 </label>
+
 
 <label>
 <input type="checkbox" id="aislador">
 Aislador
 </label>
 
+
 <label>
 <input type="checkbox" id="cajaNap">
 Caja NAP
 </label>
 
+
 </div>
 
 
-<label>Color caja NAP</label>
+
+<label>Color Caja NAP</label>
+
 
 <select id="color">
-<option value="Blanco">Blanco</option>
-<option value="Negro">Negro</option>
+
+<option value="Blanco">
+Blanco
+</option>
+
+
+<option value="Negro">
+Negro
+</option>
+
+
 </select>
 
 
 
 <button onclick="capturarFoto()">
-📷 Tomar foto
+📷 Tomar Foto
 </button>
+
 
 <input 
 type="file"
@@ -73,8 +152,9 @@ capture="environment"
 hidden>
 
 
+
 <button onclick="obtenerGPS()">
-📍 Obtener ubicación GPS
+📍 Obtener GPS
 </button>
 
 
@@ -83,74 +163,133 @@ GPS pendiente
 </p>
 
 
-<button class="guardar"
+
+<button 
+class="guardar"
 onclick="guardarPoste()">
-💾 Guardar registro
+
+💾 Guardar Registro
+
 </button>
+
+
 
 </div>
 
 
 
+
+
 <div class="card">
+
+
+<h2>Resumen</h2>
+
+
+<p id="resumen">
+Total registros: 0
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h2>Buscar</h2>
+
+
+<input
+id="buscar"
+placeholder="Buscar poste, etapa o sector"
+onkeyup="mostrarRegistros()">
+
+
 
 <h2>Registros</h2>
 
 
-<input 
-id="buscar"
-placeholder="Buscar poste..."
-onkeyup="mostrarRegistros()">
-
-
 <div class="tabla">
+
 
 <table>
 
+
 <thead>
+
 
 <tr>
 
+<th>Etapa</th>
+
+<th>Sector</th>
+
 <th>Poste</th>
-<th>Características</th>
+
+<th>Datos</th>
+
 <th>GPS</th>
+
+<th>Foto</th>
+
 <th>Acción</th>
 
 </tr>
 
+
 </thead>
+
 
 
 <tbody id="tablaPostes">
 
+
 </tbody>
+
 
 
 </table>
 
+
+
 </div>
 
 
 </div>
+
+
 
 
 
 <div class="card">
 
+
 <button onclick="exportarPDF()">
+
 📄 Exportar PDF
+
 </button>
+
 
 
 <button onclick="exportarExcel()">
+
 📊 Exportar Excel
+
 </button>
 
 
 </div>
 
 
+
 </div>
+
+
 
 
 
@@ -161,7 +300,10 @@ onkeyup="mostrarRegistros()">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 
+
 <script src="app.js"></script>
+
+
 
 
 <script>
@@ -175,6 +317,7 @@ navigator.serviceWorker.register(
 }
 
 </script>
+
 
 
 </body>
