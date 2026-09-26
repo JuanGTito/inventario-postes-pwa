@@ -1,16 +1,18 @@
+let db;
 let registros = [];
 let gpsActual = "";
 let fotoActual = "";
 let editando = null;
 
 
-// Base de datos local
-const request = indexedDB.open("InventarioPostesDB", 1);
+// CREAR BASE DE DATOS
+
+let request = indexedDB.open("InventarioPostesDB", 2);
 
 
 request.onupgradeneeded = function(e){
 
-    let db = e.target.result;
+    db = e.target.result;
 
     if(!db.objectStoreNames.contains("postes")){
 
@@ -24,9 +26,10 @@ request.onupgradeneeded = function(e){
 };
 
 
+
 request.onsuccess = function(e){
 
-    window.db = e.target.result;
+    db = e.target.result;
 
     cargarRegistros();
 
@@ -34,62 +37,75 @@ request.onsuccess = function(e){
 
 
 
-// Obtener GPS
+// ================= GPS =================
+
 
 function obtenerGPS(){
 
-    if(!navigator.geolocation){
 
-        alert("El dispositivo no tiene GPS");
+if(!navigator.geolocation){
 
-        return;
+alert("GPS no disponible");
 
-    }
+return;
 
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(pos){
-
-            gpsActual =
-            pos.coords.latitude.toFixed(6)
-            +
-            ", "
-            +
-            pos.coords.longitude.toFixed(6);
+}
 
 
-            document.getElementById("ubicacion").innerHTML =
-            "📍 GPS: " + gpsActual;
+navigator.geolocation.getCurrentPosition(
+
+function(pos){
 
 
-        },
+gpsActual =
+pos.coords.latitude.toFixed(6)
++
+", "
++
+pos.coords.longitude.toFixed(6);
 
 
-        function(){
 
-            alert(
-            "No se pudo obtener GPS. Activa permisos de ubicación."
-            );
+document.getElementById("ubicacion").innerHTML =
 
-        },
+"📍 GPS: "
++
+gpsActual;
 
-        {
-            enableHighAccuracy:true,
-            timeout:10000
-        }
 
-    );
+
+},
+
+
+function(){
+
+alert(
+"No se pudo obtener ubicación. Activa permisos GPS."
+);
+
+},
+
+
+{
+enableHighAccuracy:true,
+timeout:15000
+}
+
+
+);
+
 
 }
 
 
 
-// Cámara
+
+// ================= FOTO =================
+
 
 function capturarFoto(){
 
-    document.getElementById("foto").click();
+document.getElementById("foto").click();
 
 }
 
@@ -97,23 +113,29 @@ function capturarFoto(){
 
 document.getElementById("foto").onchange=function(e){
 
-    let archivo=e.target.files[0];
+
+let archivo=e.target.files[0];
 
 
-    if(!archivo)return;
+if(!archivo)return;
 
 
-    let lector=new FileReader();
+
+let lector=new FileReader();
 
 
-    lector.onload=function(){
 
-        fotoActual=lector.result;
+lector.onload=function(){
 
-    };
+fotoActual=lector.result;
+
+};
 
 
-    lector.readAsDataURL(archivo);
+
+lector.readAsDataURL(archivo);
+
+
 
 };
 
@@ -121,12 +143,27 @@ document.getElementById("foto").onchange=function(e){
 
 
 
-// Guardar
+
+// ================= GUARDAR =================
+
 
 function guardarPoste(){
 
 
-let poste={
+let datos={
+
+
+proyecto:
+document.getElementById("proyecto").value,
+
+
+etapa:
+document.getElementById("etapa").value,
+
+
+sector:
+document.getElementById("sector").value,
+
 
 numero:
 document.getElementById("numeroPoste").value,
@@ -162,29 +199,35 @@ gps:gpsActual,
 foto:fotoActual,
 
 
-fecha:new Date().toLocaleString()
+fecha:
+new Date().toLocaleString()
+
 
 };
 
 
 
 
-
-let tx=db.transaction(
+let transaccion =
+db.transaction(
 ["postes"],
 "readwrite"
 );
 
 
-let store=tx.objectStore("postes");
+let tabla =
+transaccion.objectStore("postes");
+
 
 
 
 if(editando){
 
-poste.id=editando;
 
-store.put(poste);
+datos.id=editando;
+
+tabla.put(datos);
+
 
 editando=null;
 
@@ -192,47 +235,60 @@ editando=null;
 }else{
 
 
-store.add(poste);
+tabla.add(datos);
 
 
 }
 
 
 
-tx.oncomplete=function(){
+transaccion.oncomplete=function(){
 
-limpiarFormulario();
+
+limpiar();
 
 cargarRegistros();
 
+
 alert("Registro guardado");
+
 
 };
 
 
+
 }
 
 
 
 
-// Cargar registros
+
+// ================= LEER =================
+
+
 
 function cargarRegistros(){
 
 
-let tx=db.transaction(
+
+let transaccion =
+db.transaction(
 ["postes"],
 "readonly"
 );
 
 
-let store=tx.objectStore("postes");
+
+let tabla =
+transaccion.objectStore("postes");
 
 
-let datos=[];
+
+let lista=[];
 
 
-store.openCursor().onsuccess=function(e){
+
+tabla.openCursor().onsuccess=function(e){
 
 
 let cursor=e.target.result;
@@ -240,20 +296,25 @@ let cursor=e.target.result;
 
 if(cursor){
 
-datos.push(cursor.value);
+
+lista.push(cursor.value);
 
 cursor.continue();
+
 
 
 }else{
 
 
-registros=datos;
+registros=lista;
 
 mostrarRegistros();
 
+actualizarResumen();
+
 
 }
+
 
 
 };
@@ -265,40 +326,64 @@ mostrarRegistros();
 
 
 
+// ================= MOSTRAR =================
+
+
 function mostrarRegistros(){
 
 
-let tabla=
+
+let cuerpo =
 document.getElementById("tablaPostes");
 
 
-let buscar=
-document.getElementById("buscar").value
+
+let texto =
+document.getElementById("buscar")
+.value
 .toLowerCase();
 
 
 
-tabla.innerHTML="";
+cuerpo.innerHTML="";
+
 
 
 registros
 
 .filter(p=>
-p.numero.toLowerCase()
-.includes(buscar)
+
+p.numero.toLowerCase().includes(texto)
+
+||
+
+p.etapa.toLowerCase().includes(texto)
+
+||
+
+p.sector.toLowerCase().includes(texto)
+
 )
+
+
 
 .forEach(p=>{
 
 
-tabla.innerHTML += `
+cuerpo.innerHTML += `
 
 
 <tr>
 
-<td>
-${p.numero}
-</td>
+
+<td>${p.etapa}</td>
+
+
+<td>${p.sector}</td>
+
+
+<td>${p.numero}</td>
+
 
 
 <td>
@@ -311,38 +396,57 @@ Aislador: ${p.aislador}<br>
 
 NAP: ${p.cajaNap}<br>
 
-${p.color}
-
-${p.foto?
-"<br><img class='foto' src='"+p.foto+"'>"
-:""}
+Color: ${p.color}
 
 </td>
 
 
-<td>
-${p.gps}
-</td>
+
+<td>${p.gps}</td>
 
 
 
 <td>
 
-<button 
+${p.foto ?
+
+"<img class='foto' src='"+p.foto+"'>"
+
+:
+
+"Sin foto"
+
+}
+
+
+</td>
+
+
+
+<td>
+
+
+<button
 class="btn-editar"
 onclick="editar(${p.id})">
+
 Editar
+
 </button>
 
 
 <button
 class="btn-eliminar"
 onclick="eliminar(${p.id})">
+
 Eliminar
+
 </button>
 
 
+
 </td>
+
 
 
 </tr>
@@ -355,13 +459,16 @@ Eliminar
 });
 
 
+
 }
 
 
 
 
 
-// Eliminar
+// ================= ELIMINAR =================
+
+
 
 function eliminar(id){
 
@@ -369,10 +476,12 @@ function eliminar(id){
 if(confirm("¿Eliminar registro?")){
 
 
-let tx=db.transaction(
+let tx =
+db.transaction(
 ["postes"],
 "readwrite"
 );
+
 
 
 tx.objectStore("postes")
@@ -387,28 +496,38 @@ cargarRegistros();
 };
 
 
-}
-
-
 
 }
 
 
 
+}
 
 
-// Editar
+
+
+
+// ================= EDITAR =================
+
 
 function editar(id){
 
 
-let p=registros.find(
-x=>x.id===id
+let p =
+registros.find(
+x=>x.id==id
 );
 
 
 
+document.getElementById("proyecto").value=p.proyecto;
+
+document.getElementById("etapa").value=p.etapa;
+
+document.getElementById("sector").value=p.sector;
+
 document.getElementById("numeroPoste").value=p.numero;
+
 
 document.getElementById("brazo").checked=p.brazo=="SI";
 
@@ -417,6 +536,7 @@ document.getElementById("clevis").checked=p.clevis=="SI";
 document.getElementById("aislador").checked=p.aislador=="SI";
 
 document.getElementById("cajaNap").checked=p.cajaNap=="SI";
+
 
 document.getElementById("color").value=p.color;
 
@@ -438,7 +558,13 @@ window.scrollTo(0,0);
 
 
 
-function limpiarFormulario(){
+
+// ================= LIMPIAR =================
+
+
+
+function limpiar(){
+
 
 document.getElementById("numeroPoste").value="";
 
@@ -450,12 +576,15 @@ document.getElementById("aislador").checked=false;
 
 document.getElementById("cajaNap").checked=false;
 
+
 gpsActual="";
 
 fotoActual="";
 
+
 document.getElementById("ubicacion").innerHTML=
 "GPS pendiente";
+
 
 }
 
@@ -463,34 +592,144 @@ document.getElementById("ubicacion").innerHTML=
 
 
 
-// PDF
+
+// ================= RESUMEN =================
+
+
+
+function actualizarResumen(){
+
+
+document.getElementById("resumen").innerHTML=
+
+"Total registros: "
++
+registros.length;
+
+
+}
+
+
+
+
+
+// ================= EXCEL =================
+
+
+function exportarExcel(){
+
+
+let datos = registros.map(p=>{
+
+
+return {
+
+
+Proyecto:p.proyecto,
+
+Etapa:p.etapa,
+
+Sector:p.sector,
+
+Poste:p.numero,
+
+Brazo:p.brazo,
+
+Clevis:p.clevis,
+
+Aislador:p.aislador,
+
+Caja_NAP:p.cajaNap,
+
+Color:p.color,
+
+GPS:p.gps,
+
+Fecha:p.fecha
+
+
+};
+
+
+
+});
+
+
+
+let hoja =
+XLSX.utils.json_to_sheet(datos);
+
+
+
+let libro =
+XLSX.utils.book_new();
+
+
+
+XLSX.utils.book_append_sheet(
+libro,
+hoja,
+"Inventario"
+);
+
+
+
+XLSX.writeFile(
+libro,
+"Inventario_Postes.xlsx"
+);
+
+
+
+}
+
+
+
+
+
+
+// ================= PDF =================
+
+
 
 function exportarPDF(){
+
 
 
 const {jsPDF}=window.jspdf;
 
 
-let pdf=new jsPDF();
+
+let pdf =
+new jsPDF();
 
 
 
 pdf.text(
-"Inventario de Postes",
+"Reporte Inventario de Postes",
 10,
 10
 );
 
 
 
-let filas=registros.map(p=>[
+let filas =
+registros.map(p=>[
+
+p.etapa,
+
+p.sector,
 
 p.numero,
+
 p.brazo,
+
 p.clevis,
+
 p.aislador,
+
 p.cajaNap,
-p.color,
+
 p.gps
 
 ]);
@@ -499,14 +738,21 @@ p.gps
 
 pdf.autoTable({
 
+
+startY:20,
+
+
 head:[[
+
+"Etapa",
+"Sector",
 "Poste",
 "Brazo",
 "Clevis",
 "Aislador",
 "NAP",
-"Color",
 "GPS"
+
 ]],
 
 
@@ -518,45 +764,9 @@ body:filas
 
 
 pdf.save(
-"Inventario_Postes.pdf"
+"Reporte_Postes.pdf"
 );
 
-
-}
-
-
-
-
-
-// Excel
-
-function exportarExcel(){
-
-
-let hoja=
-XLSX.utils.json_to_sheet(
-registros
-);
-
-
-
-let libro=
-XLSX.utils.book_new();
-
-
-
-XLSX.utils.book_append_sheet(
-libro,
-hoja,
-"Postes"
-);
-
-
-
-XLSX.writeFile(
-libro,
-"Inventario_Postes.xlsx"
-);
 
 
 }
