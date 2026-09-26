@@ -1,0 +1,179 @@
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:10px;
+    font-family:Arial, sans-serif;
+    background:#f2f4f7;
+    color:#222;
+}
+
+
+.container{
+    max-width:600px;
+    margin:auto;
+}
+
+
+h1{
+    text-align:center;
+    font-size:24px;
+    color:#005bbb;
+}
+
+
+h2{
+    font-size:20px;
+}
+
+
+.card{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+
+
+label{
+    display:block;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+
+input,
+select,
+button{
+
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
+
+}
+
+
+button{
+
+    background:#0066cc;
+    color:white;
+    border:none;
+    font-weight:bold;
+}
+
+
+button:active{
+
+    transform:scale(0.98);
+
+}
+
+
+.guardar{
+
+    background:#008c45;
+
+}
+
+
+.checks{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:10px;
+
+}
+
+
+.checks label{
+
+    background:#eee;
+    padding:10px;
+    border-radius:8px;
+
+}
+
+
+.checks input{
+
+    width:auto;
+
+}
+
+
+#ubicacion{
+
+    background:#eef5ff;
+    padding:10px;
+    border-radius:8px;
+    font-size:14px;
+
+}
+
+
+.tabla{
+
+    overflow-x:auto;
+
+}
+
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+
+}
+
+
+th{
+
+    background:#0066cc;
+    color:white;
+
+}
+
+
+td,th{
+
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:center;
+
+}
+
+
+.btn-editar{
+
+    background:#f39c12;
+    padding:6px;
+    font-size:12px;
+
+}
+
+
+.btn-eliminar{
+
+    background:#d9534f;
+    padding:6px;
+    font-size:12px;
+
+}
+
+
+img.foto{
+
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:6px;
+
+}
