@@ -2,77 +2,128 @@
     box-sizing:border-box;
 }
 
+
 body{
+
     margin:0;
     padding:10px;
+
     font-family:Arial, sans-serif;
-    background:#f2f4f7;
+
+    background:#f1f4f8;
+
     color:#222;
+
 }
+
 
 
 .container{
-    max-width:600px;
+
+    max-width:900px;
+
     margin:auto;
+
 }
+
 
 
 h1{
+
     text-align:center;
-    font-size:24px;
+
     color:#005bbb;
+
+    font-size:26px;
+
 }
+
 
 
 h2{
+
+    color:#333;
+
     font-size:20px;
+
 }
+
 
 
 .card{
+
     background:white;
+
     padding:15px;
+
     margin-bottom:15px;
+
     border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+
 }
+
 
 
 label{
+
     display:block;
+
     margin-top:10px;
+
     font-weight:bold;
+
 }
+
 
 
 input,
 select,
 button{
 
+
     width:100%;
+
     padding:12px;
+
     margin-top:8px;
+
     border-radius:8px;
+
     border:1px solid #ccc;
+
     font-size:16px;
 
+
 }
+
 
 
 button{
 
+
     background:#0066cc;
+
     color:white;
+
     border:none;
+
     font-weight:bold;
+
+    cursor:pointer;
+
+
 }
+
 
 
 button:active{
 
-    transform:scale(0.98);
+    transform:scale(.98);
 
 }
+
 
 
 .guardar{
@@ -82,23 +133,33 @@ button:active{
 }
 
 
+
 .checks{
 
     display:grid;
+
     grid-template-columns:1fr 1fr;
-    gap:8px;
+
+    gap:10px;
+
     margin-top:10px;
 
+
 }
+
 
 
 .checks label{
 
-    background:#eee;
+
+    background:#eef3f8;
+
     padding:10px;
+
     border-radius:8px;
 
 }
+
 
 
 .checks input{
@@ -108,72 +169,178 @@ button:active{
 }
 
 
+
 #ubicacion{
 
-    background:#eef5ff;
+
+    background:#edf6ff;
+
     padding:10px;
+
     border-radius:8px;
+
+    color:#005bbb;
+
     font-size:14px;
 
+
 }
+
+
+
+
+
+#resumen{
+
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#008c45;
+
+
+}
+
+
+
 
 
 .tabla{
 
+
+    width:100%;
+
     overflow-x:auto;
 
+
 }
+
+
 
 
 table{
 
+
     width:100%;
+
     border-collapse:collapse;
+
+    min-width:750px;
+
+    background:white;
+
     font-size:13px;
 
+
 }
 
 
-th{
+
+thead{
+
 
     background:#0066cc;
+
     color:white;
 
+
 }
 
 
-td,th{
+
+th,
+td{
+
 
     border:1px solid #ddd;
+
     padding:8px;
+
     text-align:center;
 
-}
+    vertical-align:middle;
 
-
-.btn-editar{
-
-    background:#f39c12;
-    padding:6px;
-    font-size:12px;
 
 }
 
 
-.btn-eliminar{
-
-    background:#d9534f;
-    padding:6px;
-    font-size:12px;
-
-}
 
 
 img.foto{
 
-    width:60px;
-    height:60px;
+
+    width:90px;
+
+    height:90px;
+
     object-fit:cover;
-    border-radius:6px;
+
+    border-radius:8px;
+
+}
+
+
+
+
+
+.btn-editar{
+
+
+    background:#f39c12;
+
+    padding:7px;
+
+    margin-bottom:5px;
+
+    font-size:12px;
+
+
+}
+
+
+
+.btn-eliminar{
+
+
+    background:#d9534f;
+
+    padding:7px;
+
+    font-size:12px;
+
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+h1{
+
+font-size:22px;
+
+}
+
+
+
+table{
+
+font-size:12px;
+
+}
+
+
+
+.card{
+
+padding:12px;
+
+}
+
+
 
 }
