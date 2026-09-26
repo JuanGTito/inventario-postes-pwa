@@ -1,0 +1,17 @@
+{
+  "name": "Inventario de Postes",
+  "short_name": "Postes",
+  "description": "Registro de postes con GPS, fotos y reportes",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f2f4f7",
+  "theme_color": "#0066cc",
+
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
